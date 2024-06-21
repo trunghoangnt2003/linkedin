@@ -1,21 +1,7 @@
 //import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthDetails, SignIn, SignUp } from "./components";
+// import { AuthDetails, SignIn, SignUp } from "./components";
+import { Home } from "./pages";
 
 export function App() {
-
-  return (
-    // <Router>
-    //   <Routes>
-    //     <Route path="/sign-in" element={<SignIn/>}/>
-    //     <Route path="/sign-up" element={<SignUp/>}/>
-    //     <Route path="/auth" element={<AuthDetails/>}/>
-    //   </Routes>
-    // </Router>
-    <>
-    <SignIn/>
-    <SignUp/>
-    <AuthDetails/>
-    </>
-  )
+    return <Home />;
 }
-
