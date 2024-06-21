@@ -13,8 +13,5 @@ export function App() {
       </Routes>
     </Router>
 
-    
-
   )
 }
-
