@@ -1,5 +1,5 @@
 //import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthDetails, SignIn, SignUp } from "./components";
+import { AuthDetails, Footer, SignIn, SignUp } from "./components";
 
 export function App() {
 
@@ -12,9 +12,7 @@ export function App() {
     //   </Routes>
     // </Router>
     <>
-    <SignIn/>
-    <SignUp/>
-    <AuthDetails/>
+      <Footer></Footer>
     </>
   )
 }
