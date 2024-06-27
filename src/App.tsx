@@ -1,15 +1,14 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthDetails, Footer, SignIn, SignUp } from "./components";
+import { PostShare } from "./pages";
+import { Login } from "./pages/login";
 
 export function App() {
 
   return (
     <Router>
       <Routes>
-        <Route path="/sign-in" element={<SignIn/>}/>
-        <Route path="/sign-up" element={<SignUp/>}/>
-        <Route path="/auth" element={<AuthDetails/>}/>
-        <Route path="/test" element={<Footer/>}/>
+        <Route path="/post" element={<PostShare/>}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
     </Router>
 
