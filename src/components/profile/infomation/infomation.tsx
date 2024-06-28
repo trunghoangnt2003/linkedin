@@ -6,13 +6,16 @@ import { Avatar } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { User } from "../../../models/user";
 type Props = {
+    user: User;
     classes?: {
         [key: string]: string;
     };
 };
 
-export const Infomation: React.FC<Props> = ({ classes }) => {
+export const Infomation: React.FC<Props> = ({ classes, user }) => {
+    console.log("info", user);
     return (
         <div className="bg-primary w-full h-full">
             <div className="h-full">
@@ -30,14 +33,14 @@ export const Infomation: React.FC<Props> = ({ classes }) => {
                             <div className={clsx(classes?.avt_round_bg)}>
                                 <Avatar
                                     alt=""
-                                    src={avt}
+                                    src={user.avatar}
                                     sx={{ width: 130, height: 130 }}
                                 />
                             </div>
 
                             <div className="text-primary mt-5 ">
                                 <h1 className="text-xl font-semibold">
-                                    Bill Gates
+                                    {user.name}
                                 </h1>
                                 <span className="text-xs">
                                     <p>CEO Microsoft</p>
