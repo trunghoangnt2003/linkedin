@@ -5,7 +5,7 @@ export const Logout = () => {
     const navigate = useNavigate();
     const userSignOut = () => {
         signOut(auth).then(()=>{}).catch((error)=>{console.log(error)});
-        localStorage.removeItem("user");
+        localStorage.removeItem("token");
         navigate("/login");
     }
     return (

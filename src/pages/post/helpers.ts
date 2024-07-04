@@ -36,7 +36,7 @@ export const handlePost = async (options: {
     images: File[];
 }) => {
     try {
-        const { content, user, images } = options;
+        const { content, images } = options;
         await axios
             .post(
                 `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/post`,
@@ -46,7 +46,7 @@ export const handlePost = async (options: {
             )
             .then(function (response) {
                 console.log(response);
-                console.log("Post content thành công", idPost);
+                console.log("Post content thành công");
                 handleUploadImages(idPost, images);
             })
             .catch(function (error) {

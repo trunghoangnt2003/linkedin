@@ -11,7 +11,6 @@ import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import clsx from "clsx";
 import { User } from "../../models";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { handlePost } from "./helpers";
 import { ModalAllImages, ModalClosePost } from "./Modal";
 
@@ -81,10 +80,11 @@ export const PostShare: React.FC<Props> = ({ classes }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userId = localStorage.getItem("user");
-                if (userId) {
+                const token = localStorage.getItem("token");
+                console.log("token", token);
+                if (token) {
                     const response = await axios.get(
-                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?id=${userId}`
+                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`
                     );
                     setUser(response.data);
                 } else {
