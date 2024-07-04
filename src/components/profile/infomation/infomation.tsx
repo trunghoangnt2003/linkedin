@@ -3,10 +3,11 @@ import avt from "../../../assets/img/Bill_Gates.jpg";
 import baner from "../../../assets/img/Banner.png";
 import clsx from "clsx";
 import { Avatar } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { User } from "../../../models/user";
+import { useNavigate } from "react-router-dom";
 type Props = {
     user: User;
     classes?: {
@@ -15,7 +16,11 @@ type Props = {
 };
 
 export const Infomation: React.FC<Props> = ({ classes, user }) => {
-    console.log("info", user);
+    const navigate = useNavigate();
+
+    const navigateToEditProfile = () => {
+        navigate("edit");
+    };
     return (
         <div className="bg-primary w-full h-full">
             <div className="h-full">
@@ -52,8 +57,15 @@ export const Infomation: React.FC<Props> = ({ classes, user }) => {
                                 </span>
                             </div>
                         </div>
-                        <div className="absolute top-2 right-2 hover:bg-slate-300 hover:bg-opacity-15 cursor-pointer rounded-md">
-                            <MoreVertIcon className="text-primary" />
+                        <div
+                            className="absolute top-2 right-2 hover:bg-slate-300 hover:bg-opacity-15 cursor-pointer rounded-md"
+                            onClick={navigateToEditProfile}
+                        >
+                            {/* <MoreVertIcon className="text-primary" /> */}
+                            <CreateOutlinedIcon
+                                className="text-primary"
+                                fontSize="small"
+                            />
                         </div>
                         <div className=" absolute bottom-5 left-5 mt-5">
                             <Stack direction="row" spacing={1}>

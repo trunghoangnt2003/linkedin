@@ -3,6 +3,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Home } from "./pages";
 import { Profile } from "./pages";
+import { EditProfile } from "./pages";
 
 export function App() {
     return (
@@ -10,7 +11,7 @@ export function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
-               
+                <Route path="/profile/edit" element={<EditProfile />} />
             </Routes>
         </Router>
     );

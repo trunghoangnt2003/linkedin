@@ -39,13 +39,13 @@ export const Profile: React.FC<Props> = ({ classes }) => {
     return (
         <div className="flex justify-center items-center  bg-white">
             <div className={clsx(classes?.mainContent, "")}>
-                <div className="flex justify-center items-start bg-primary h-2/5">
+                <div className="flex justify-center items-start bg-primary h-2/5 ">
                     <Infomation user={user} />
                 </div>
-                <div className="flex  items-start bg-primary h-fit mt-2">
+                <div className="flex  items-start bg-primary h-fit mt-2  ">
                     <Contact user={user} />
                 </div>
-                <div className="flex items-start bg-primary h-1/5 mt-2">
+                <div className="flex items-start bg-primary h-1/5 mt-2 ">
                     <Description
                         user={user}
                         onDescriptionChange={handleDescriptionChange}

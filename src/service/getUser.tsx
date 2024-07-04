@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { User } from "../models/user";
 
 export const useGetUser = (id) => {
-    const [user, setUser] = useState(Object);
+    const [user, setUser] = useState({} as User);
     useEffect(() => {
         axios
             .get(

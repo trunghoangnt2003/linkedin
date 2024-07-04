@@ -1,0 +1,11 @@
+.inputPhone input{
+    background-color: lightgray;
+    border-radius: 5px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding: 0.1rem 0.3rem;  
+}
+
+.inputPhone input:focus{
+    outline: none;
+}

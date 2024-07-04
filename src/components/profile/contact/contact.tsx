@@ -4,11 +4,13 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import { User } from "../../../models/user";
 import AddIcon from "@mui/icons-material/Add";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
+import React from "react";
+import { ClickAwayListener } from "@mui/base/ClickAwayListener";
+import { UpdateBirth, UpdatePhone } from "../../../service";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import clsx from "clsx";
+
 type Props = {
     user: User;
     classes?: {
@@ -17,68 +19,171 @@ type Props = {
 };
 
 export const Contact: React.FC<Props> = ({ classes, user }) => {
-    console.log(user);
+    const [birth, setBirth] = React.useState(user.birth || "");
+    const [phone, setPhone] = React.useState(user.phone || "");
+    const [openPhone, setOpenPhone] = React.useState(false);
+    const [openDatePicker, setOpenDatePicker] = React.useState(false);
+
+    const handleOpenDatePicker = () => {
+        setOpenDatePicker(!openDatePicker);
+    };
+    const handleChangeBirth = (e) => {
+        setBirth(e.target.value);
+    };
+    const updateBirth = () => {
+        setOpenDatePicker(false);
+        if (user.birth === birth) return;
+        if (birth == null || birth == "") return;
+        UpdateBirth(user, birth);
+        user.birth = birth;
+    };
+
+    const handleChangePhone = (e) => {
+        setPhone(e);
+    };
+
+    const handleOpenPhone = () => {
+        setOpenPhone(!openPhone);
+    };
+
+    const updatePhone = () => {
+        setOpenPhone(false);
+        if (user.phone === phone) return;
+        if (phone == null || phone == "") return;
+        UpdatePhone(user, phone);
+        user.phone = phone;
+    };
+
+    const updateAll = () => {
+        handleOpenDatePicker();
+        handleOpenPhone();
+    };
     return (
         <div className="text-primary w-full">
             <div className="m-4 relative">
                 <h1 className="mb-3 font-medium">Contact</h1>
-                {user.birth != null && user.email != null && user.phone ? (
+
+                {/* {user.birth != null && user.email != null && user.phone ? (
                     ""
-                ) : (
-                    <div className="absolute top-0 right-0 hover:bg-slate-300 hover:bg-opacity-15 cursor-pointer rounded-md">
-                        <CreateOutlinedIcon fontSize="small" />
-                    </div>
-                )}
-                <span className="text-center flex mb-1 text-sm">
-                    <CakeIcon fontSize="small" /> &nbsp;
-                    <input
-                        type="date"
-                        className="bg-gray-200 text-black rounded"
-                    />
-                    {user.birth == null || user.birth == "" ? (
-                        <div>
-                            <div className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end">
-                                <AddIcon fontSize="small" />
-                                <span className="text-end m-auto">
-                                    Add a birthday
-                                </span>
+                ) : ( */}
+                {/* <div
+                    className="absolute top-0 right-0 hover:bg-slate-300 hover:bg-opacity-15 cursor-pointer rounded-md"
+                    onClick={updateAll}
+                >
+                    <CreateOutlinedIcon fontSize="small" />
+                </div> */}
+                {/* )} */}
+                <div className="h-7">
+                    <span className="text-center flex text-sm ">
+                        <CakeIcon fontSize="small" className="mr-2" />
+                        {openDatePicker ? (
+                            <>
+                                <ClickAwayListener onClickAway={updateBirth}>
+                                    <div>
+                                        <input
+                                            value={birth}
+                                            type="date"
+                                            className="bg-gray-200 text-black rounded"
+                                            onChange={(e) =>
+                                                handleChangeBirth(e)
+                                            }
+                                        />
+                                    </div>
+                                </ClickAwayListener>
+                            </>
+                        ) : (
+                            <>
+                                {user.birth == null || user.birth == "" ? (
+                                    <div>
+                                        <div
+                                            className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end"
+                                            onClick={handleOpenDatePicker}
+                                        >
+                                            <AddIcon fontSize="small" />
+                                            <span className="text-end m-auto">
+                                                Add a birthday
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <span>{user.birth}</span>
+                                )}
+                            </>
+                        )}
+                    </span>
+                </div>
+                <div className="h-7">
+                    <span className="text-center flex mb-2 text-sm">
+                        <AlternateEmailIcon fontSize="small" className="mr-2" />
+
+                        {user.email == null || user.email == "" ? (
+                            <div>
+                                <div className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end">
+                                    <AddIcon fontSize="small" />
+                                    <span className="text-end m-auto">
+                                        Add Email
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    ) : (
-                        <span>{user.birth}</span>
-                    )}
-                </span>
-                <span className="text-center flex mb-1 text-sm">
-                    <AlternateEmailIcon fontSize="small" /> &nbsp;
-                    {user.email == null || user.email == "" ? (
-                        <div>
-                            <div className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end">
-                                <AddIcon fontSize="small" />
-                                <span className="text-end m-auto">
-                                    Add Email
-                                </span>
-                            </div>
-                        </div>
-                    ) : (
-                        user.email
-                    )}
-                </span>
-                <span className="text-center flex mb-1 text-sm">
-                    <PhoneIcon fontSize="small" /> &nbsp;
-                    {user.phone == null || user.phone == "" ? (
-                        <div>
-                            <div className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end">
-                                <AddIcon fontSize="small" />
-                                <span className="text-end m-auto">
-                                    Add phone
-                                </span>
-                            </div>
-                        </div>
-                    ) : (
-                        user.phone
-                    )}{" "}
-                    {user.phone}
-                </span>
+                        ) : (
+                            user.email
+                        )}
+                    </span>
+                </div>
+                <div className="h-7">
+                    <span className="text-center flex mb-2 text-sm">
+                        {openPhone ? (
+                            <>
+                                {/* <ClickAwayListener
+                                    onClickAway={handleOpenPhone}
+                                >
+                                    <input
+                                        title="text"
+                                        className="bg-gray-300 text-slate-700 rounded-md p-l-5 w-1/4"
+                                        maxLength={10}
+                                        onChange={(e) => checkPhone(e)}
+                                    />
+                                </ClickAwayListener> */}
+                                <ClickAwayListener onClickAway={updatePhone}>
+                                    <div>
+                                        <PhoneInput
+                                            className={clsx(
+                                                classes?.inputPhone,
+                                                "bg-primary text-slate-700 rounded-md h-6"
+                                            )}
+                                            placeholder="Enter phone number"
+                                            value={phone}
+                                            onChange={(e) =>
+                                                handleChangePhone(e)
+                                            }
+                                            defaultCountry="VN"
+                                            limitMaxLength={true}
+                                        />
+                                    </div>
+                                </ClickAwayListener>
+                            </>
+                        ) : (
+                            <>
+                                <PhoneIcon fontSize="small" className="mr-2" />
+                                {user.phone == null || user.phone == "" ? (
+                                    <div>
+                                        <div
+                                            className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end"
+                                            onClick={handleOpenPhone}
+                                        >
+                                            <AddIcon fontSize="small" />
+                                            <span className="text-end m-auto">
+                                                Add phone
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    user.phone
+                                )}
+                            </>
+                        )}
+                    </span>
+                </div>
             </div>
         </div>
     );
