@@ -21,17 +21,17 @@ export const Login: React.FC<Props> = ({ classes }) => {
             navigate('/post');
         }
       }, []);
-    const handleClick = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
+    const handleClick = async () => {
+        await signInWithPopup(auth, provider)
+            .then( async(result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 //    const credential = GoogleAuthProvider.credentialFromResult(result);
                 //    const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
                 console.log("user", user);
-                checkUser(user);
-               navigate("/post");
+                await checkUser(user);
+                navigate("/post");
             })
             .catch((error) => {
                 console.log(error);
@@ -44,23 +44,23 @@ export const Login: React.FC<Props> = ({ classes }) => {
                 // const credential = GoogleAuthProvider.credentialFromError(error);
                 // ...
             });
+            navigate("/post");
     };
     const checkUser = async (user) => {
         try{
-            const id = encodeURIComponent('u#' + user.uid) 
-            axios
+            await axios
             .get(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?id=` + id             
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user/email?email=` +user.email        
             )
-            .then((res) => {
-                console.log(res.data);
+            .then(async(res) => {
                 if(res.data === null) {
                     console.log("Đăng ký");
-                    registerUser(user);
+                    await registerUser(user);
                 }else {
-                    console.log("Đăng nhập");                    
+                    console.log("login:",res.data);
+                    console.log("Đăng nhập");
+                    localStorage.setItem('token', res.data.token);                    
                 }
-                localStorage.setItem("user",id);
                 
             })
             .catch((err) => {
@@ -76,17 +76,14 @@ export const Login: React.FC<Props> = ({ classes }) => {
           await axios.post(
             `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user`,
             {
-              id: 'u#' + user.uid,
               name: user.displayName,
               email: user.email,
-              birth: '',
-              phone: '',
-              description: '',
               image: user.photoURL,
             }
           ).then(function (response) {
-            console.log(response);
-            console.log("Đăng ký thành công");
+            if(response.data !== null) {
+                localStorage.setItem('token', response.data.token);
+            }
           })
           .catch(function (error) {
             console.log(error);

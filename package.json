@@ -25,7 +25,8 @@
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.23.1",
         "sweetalert": "^2.1.2",
-        "sweetalert2": "^11.6.13"
+        "sweetalert2": "^11.6.13",
+        "uuid": "^10.0.0"
     },
     "devDependencies": {
         "@types/react": "^18.2.66",
