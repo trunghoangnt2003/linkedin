@@ -10,7 +10,11 @@ import { UpdateBirth, UpdatePhone } from "../../../service";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import clsx from "clsx";
-
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 type Props = {
     user: User;
     classes?: {
@@ -28,7 +32,8 @@ export const Contact: React.FC<Props> = ({ classes, user }) => {
         setOpenDatePicker(!openDatePicker);
     };
     const handleChangeBirth = (e) => {
-        setBirth(e.target.value);
+        console.log(e);
+        setBirth(e.format("YYYY-MM-DD"));
     };
     const updateBirth = () => {
         setOpenDatePicker(false);
@@ -79,15 +84,41 @@ export const Contact: React.FC<Props> = ({ classes, user }) => {
                         {openDatePicker ? (
                             <>
                                 <ClickAwayListener onClickAway={updateBirth}>
-                                    <div>
-                                        <input
+                                    <div
+                                        className={clsx(
+                                            classes?.datePickerContainer,
+                                            ""
+                                        )}
+                                    >
+                                        {/* <input
                                             value={birth}
                                             type="date"
                                             className="bg-gray-200 text-black rounded"
                                             onChange={(e) =>
                                                 handleChangeBirth(e)
                                             }
-                                        />
+                                        /> */}
+                                        <LocalizationProvider
+                                            dateAdapter={AdapterDayjs}
+                                        >
+                                            <DemoContainer
+                                                components={["DatePicker"]}
+                                                sx={{
+                                                    "& > :not(style)": {
+                                                        width: "100%",
+                                                    },
+                                                }}
+                                            >
+                                                <DatePicker
+                                                    className={clsx(
+                                                        classes?.datePicker
+                                                    )}
+                                                    onChange={(e) =>
+                                                        handleChangeBirth(e)
+                                                    }
+                                                />
+                                            </DemoContainer>
+                                        </LocalizationProvider>
                                     </div>
                                 </ClickAwayListener>
                             </>

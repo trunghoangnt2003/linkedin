@@ -9,3 +9,32 @@
 .inputPhone input:focus{
     outline: none;
 }
+
+.datePicker input{
+    background-color: transparent;
+    height: 24px;
+    font-size: 0.8rem;
+    color: white;
+    padding: 0.1rem 0.3rem;
+}
+
+.datePicker{
+    padding-top: 10;
+    overflow: hidden;
+    
+}
+.datePicker button{
+    padding: 2px 5px; 
+}
+
+.datePicker button svg{
+    width: 15px;
+    height: 15px;
+    color: white;
+    
+}
+
+.datePickerContainer :first-child {
+    padding-top: 0;
+    
+}
