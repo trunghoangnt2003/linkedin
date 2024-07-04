@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Infomation } from "../../components/profile/infomation/infomation";
 import { Contact, Description } from "../../components/profile";
 import axios from "axios";
-import { User } from "../../models/user";
+import { User } from "../../models/User";
 
 type Props = {
     classes?: {
@@ -13,13 +13,13 @@ type Props = {
 
 export const Profile: React.FC<Props> = ({ classes }) => {
     const [user, setUser] = React.useState<User>({} as User);
-    const id = encodeURIComponent("u#6wVmgUn2fGVQM1m4JQQx1zuAxou2");
-
+    const token = localStorage.getItem("token");
+    console.log(token);
     useEffect(() => {
         axios
             .get(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?id=` +
-                    id
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=` +
+                    token
             )
             .then((res) => {
                 setUser(res.data);

@@ -1,7 +1,7 @@
 import CakeIcon from "@mui/icons-material/Cake";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { User } from "../../../models/user";
+import { User } from "../../../models";
 import AddIcon from "@mui/icons-material/Add";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import React from "react";
