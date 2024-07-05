@@ -10,28 +10,81 @@ type Props = {
         [key: string]: string;
     };
 };
+const checkUser = async (user) => {
+    try {
+        await axios
+            .get(
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user/email?email=` +
+                    user.email
+            )
+            .then(async (res) => {
 
+                    console.log("login:", res.data);
+                    console.log("Đăng nhập");
+                    localStorage.setItem("token", res.data.token);
+                    return true;
+            })
+            .catch(async(err) => {
+                console.log("err checkUser", err);
+            });
+    } catch (err) {
+        console.log(err);
+    }
+    return false;
+};
+const registerUser = async (user) => {
+    try {
+        await axios
+            .post(
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user`,
+                {
+                    name: user.displayName,
+                    email: user.email,
+                    image: user.photoURL,
+                }
+            )
+            .then(  (response) =>{
+                console.log("response", response);
+                console.log("");
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    } catch (err) {
+        console.log(err);
+    }
+};
 export const Login: React.FC<Props> = ({ classes }) => {
     const navigate = useNavigate();
     useEffect(() => {
         // Lấy giá trị từ localStorage
-        const userLocalCheck = localStorage.getItem('user');
+        const userLocalCheck = localStorage.getItem("token");
         // Nếu giá trị tồn tại, điều hướng đến trang chủ
         if (userLocalCheck) {
-            navigate('/post');
+            navigate("/post");
         }
-      }, []);
-    const handleClick = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
+    }, []);
+    const handleClick = async () => {
+        await signInWithPopup(auth, provider)
+            .then(async (result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 //    const credential = GoogleAuthProvider.credentialFromResult(result);
                 //    const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
                 console.log("user", user);
-                checkUser(user);
-               navigate("/post");
+                const check = await checkUser(user);
+                if(check !== true){
+                    await registerUser(user);
+                    const check2 = await checkUser(user);
+                    if(check2 === true){
+                        navigate("/post");
+                    }
+
+                }else{
+                    navigate("/post");
+                }
+
             })
             .catch((error) => {
                 console.log(error);
@@ -44,61 +97,16 @@ export const Login: React.FC<Props> = ({ classes }) => {
                 // const credential = GoogleAuthProvider.credentialFromError(error);
                 // ...
             });
+        navigate("/post");
     };
-    const checkUser = async (user) => {
-        try{
-            const id = encodeURIComponent('u#' + user.uid) 
-            axios
-            .get(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?id=` + id             
-            )
-            .then((res) => {
-                console.log(res.data);
-                if(res.data === null) {
-                    console.log("Đăng ký");
-                    registerUser(user);
-                }else {
-                    console.log("Đăng nhập");                    
-                }
-                localStorage.setItem("user",id);
-                
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        }catch(err){
-            console.log(err);
-        }
-    }
 
-    const registerUser = async (user) => {
-        try {
-          await axios.post(
-            `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user`,
-            {
-              id: 'u#' + user.uid,
-              name: user.displayName,
-              email: user.email,
-              birth: '',
-              phone: '',
-              description: '',
-              image: user.photoURL,
-            }
-          ).then(function (response) {
-            console.log(response);
-            console.log("Đăng ký thành công");
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          
-        } catch (err) {
-          console.log(err);
-        }
-      };
-    
     return (
-        <div className={clsx(classes?.container,"h-screen flex items-center justify-center")}>
+        <div
+            className={clsx(
+                classes?.container,
+                "h-screen flex items-center justify-center"
+            )}
+        >
             <div className="mt-5 rounded-lg shadow-md w-full max-w-sm h-full">
                 <div className="flex justify-between items-center mb-20">
                     <img
@@ -130,7 +138,12 @@ export const Login: React.FC<Props> = ({ classes }) => {
                     Continue with Google
                 </button>
 
-                <p className={clsx(classes?.footer,"text-xs text-gray-300 text-center ")}>
+                <p
+                    className={clsx(
+                        classes?.footer,
+                        "text-xs text-gray-300 text-center "
+                    )}
+                >
                     By clicking Continue to join or sign in, you agree to
                     LinkedIn’s
                     <a href="#" className="text-blue-700">
