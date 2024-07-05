@@ -18,13 +18,12 @@ const checkUser = async (user) => {
                     user.email
             )
             .then(async (res) => {
-
-                    console.log("login:", res.data);
-                    console.log("Đăng nhập");
-                    localStorage.setItem("token", res.data.token);
-                    return true;
+                console.log("login:", res.data);
+                console.log("Đăng nhập");
+                localStorage.setItem("token", res.data.token);
+                return true;
             })
-            .catch(async(err) => {
+            .catch(async (err) => {
                 console.log("err checkUser", err);
             });
     } catch (err) {
@@ -43,7 +42,7 @@ const registerUser = async (user) => {
                     image: user.photoURL,
                 }
             )
-            .then(  (response) =>{
+            .then((response) => {
                 console.log("response", response);
                 console.log("");
             })
@@ -74,17 +73,15 @@ export const Login: React.FC<Props> = ({ classes }) => {
                 const user = result.user;
                 console.log("user", user);
                 const check = await checkUser(user);
-                if(check !== true){
+                if (check !== true) {
                     await registerUser(user);
                     const check2 = await checkUser(user);
-                    if(check2 === true){
+                    if (check2 === true) {
                         navigate("/post");
                     }
-
-                }else{
+                } else {
                     navigate("/post");
                 }
-
             })
             .catch((error) => {
                 console.log(error);
