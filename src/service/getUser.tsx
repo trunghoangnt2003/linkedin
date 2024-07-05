@@ -7,7 +7,7 @@ export const useGetUser = (id) => {
     useEffect(() => {
         axios
             .get(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?id=` +
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user/profile?id=` +
                     id
             )
             .then((res) => {

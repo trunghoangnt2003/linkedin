@@ -1,5 +1,4 @@
 import React from "react";
-import avt from "../../../assets/img/Bill_Gates.jpg";
 import baner from "../../../assets/img/Banner.png";
 import clsx from "clsx";
 import { Avatar } from "@mui/material";
@@ -10,12 +9,13 @@ import { User } from "../../../models/user";
 import { useNavigate } from "react-router-dom";
 type Props = {
     user: User;
+    userProfile: User;
     classes?: {
         [key: string]: string;
     };
 };
 
-export const Infomation: React.FC<Props> = ({ classes, user }) => {
+export const Infomation: React.FC<Props> = ({ classes, user, userProfile }) => {
     const navigate = useNavigate();
 
     const navigateToEditProfile = () => {
@@ -38,14 +38,14 @@ export const Infomation: React.FC<Props> = ({ classes, user }) => {
                             <div className={clsx(classes?.avt_round_bg)}>
                                 <Avatar
                                     alt=""
-                                    src={user.avatar}
+                                    src={userProfile.avatar}
                                     sx={{ width: 130, height: 130 }}
                                 />
                             </div>
 
                             <div className="text-primary mt-5 ">
                                 <h1 className="text-xl font-semibold">
-                                    {user.name}
+                                    {userProfile.name}
                                 </h1>
                                 <span className="text-xs">
                                     <p>CEO Microsoft</p>
@@ -57,32 +57,40 @@ export const Infomation: React.FC<Props> = ({ classes, user }) => {
                                 </span>
                             </div>
                         </div>
-                        <div
-                            className="absolute top-2 right-2 hover:bg-slate-300 hover:bg-opacity-15 cursor-pointer rounded-md"
-                            onClick={navigateToEditProfile}
-                        >
-                            {/* <MoreVertIcon className="text-primary" /> */}
-                            <CreateOutlinedIcon
-                                className="text-primary"
-                                fontSize="small"
-                            />
-                        </div>
-                        <div className=" absolute bottom-5 left-5 mt-5">
-                            <Stack direction="row" spacing={1}>
-                                <Button
-                                    size="small"
-                                    variant="contained"
-                                    className="mr-5 "
-                                >
-                                    <span className="text-primary_dark">
-                                        Follow
-                                    </span>
-                                </Button>
-                                <Button size="small" variant="outlined">
-                                    Message
-                                </Button>
-                            </Stack>
-                        </div>
+                        {userProfile.id === user.id ? (
+                            <div
+                                className="absolute top-2 right-2 hover:bg-slate-300 hover:bg-opacity-15 cursor-pointer rounded-md"
+                                onClick={navigateToEditProfile}
+                            >
+                                {/* <MoreVertIcon className="text-primary" /> */}
+                                <CreateOutlinedIcon
+                                    className="text-primary"
+                                    fontSize="small"
+                                />
+                            </div>
+                        ) : (
+                            ""
+                        )}
+                        {userProfile.id !== user.id ? (
+                            <div className=" absolute bottom-5 left-5 mt-5">
+                                <Stack direction="row" spacing={1}>
+                                    <Button
+                                        size="small"
+                                        variant="contained"
+                                        className="mr-5 "
+                                    >
+                                        <span className="text-primary_dark">
+                                            Follow
+                                        </span>
+                                    </Button>
+                                    <Button size="small" variant="outlined">
+                                        Message
+                                    </Button>
+                                </Stack>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
             </div>

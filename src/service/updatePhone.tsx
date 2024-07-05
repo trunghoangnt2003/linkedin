@@ -3,7 +3,7 @@ import { User } from "../models/user";
 
 export const UpdatePhone = (user: User, phone: string) => {
     axios
-        .post(
+        .patch(
             "https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user",
             {
                 id: user.id,

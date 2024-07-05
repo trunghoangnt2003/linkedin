@@ -8,7 +8,7 @@ export const UpdateUser = (
     phone: string
 ) => {
     axios
-        .post(
+        .patch(
             "https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user",
             {
                 id: user.id,

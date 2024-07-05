@@ -17,12 +17,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 type Props = {
     user: User;
+    userProfile: User;
     classes?: {
         [key: string]: string;
     };
 };
 
-export const Contact: React.FC<Props> = ({ classes, user }) => {
+export const Contact: React.FC<Props> = ({ classes, user, userProfile }) => {
     const [birth, setBirth] = React.useState(user.birth || "");
     const [phone, setPhone] = React.useState(user.phone || "");
     const [openPhone, setOpenPhone] = React.useState(false);
@@ -37,10 +38,10 @@ export const Contact: React.FC<Props> = ({ classes, user }) => {
     };
     const updateBirth = () => {
         setOpenDatePicker(false);
-        if (user.birth === birth) return;
+        if (userProfile.birth === birth) return;
         if (birth == null || birth == "") return;
-        UpdateBirth(user, birth);
-        user.birth = birth;
+        UpdateBirth(userProfile, birth);
+        userProfile.birth = birth;
     };
 
     const handleChangePhone = (e) => {
@@ -53,10 +54,10 @@ export const Contact: React.FC<Props> = ({ classes, user }) => {
 
     const updatePhone = () => {
         setOpenPhone(false);
-        if (user.phone === phone) return;
+        if (userProfile.phone === phone) return;
         if (phone == null || phone == "") return;
-        UpdatePhone(user, phone);
-        user.phone = phone;
+        UpdatePhone(userProfile, phone);
+        userProfile.phone = phone;
     };
 
     const updateAll = () => {
@@ -81,65 +82,72 @@ export const Contact: React.FC<Props> = ({ classes, user }) => {
                 <div className="h-7">
                     <span className="text-center flex text-sm ">
                         <CakeIcon fontSize="small" className="mr-2" />
-                        {openDatePicker ? (
+                        {user.id === userProfile.id ? (
                             <>
-                                <ClickAwayListener onClickAway={updateBirth}>
-                                    <div
-                                        className={clsx(
-                                            classes?.datePickerContainer,
-                                            ""
-                                        )}
-                                    >
-                                        {/* <input
-                                            value={birth}
-                                            type="date"
-                                            className="bg-gray-200 text-black rounded"
-                                            onChange={(e) =>
-                                                handleChangeBirth(e)
-                                            }
-                                        /> */}
-                                        <LocalizationProvider
-                                            dateAdapter={AdapterDayjs}
+                                {openDatePicker ? (
+                                    <>
+                                        <ClickAwayListener
+                                            onClickAway={updateBirth}
                                         >
-                                            <DemoContainer
-                                                components={["DatePicker"]}
-                                                sx={{
-                                                    "& > :not(style)": {
-                                                        width: "100%",
-                                                    },
-                                                }}
+                                            <div
+                                                className={clsx(
+                                                    classes?.datePickerContainer,
+                                                    ""
+                                                )}
                                             >
-                                                <DatePicker
-                                                    className={clsx(
-                                                        classes?.datePicker
-                                                    )}
-                                                    onChange={(e) =>
-                                                        handleChangeBirth(e)
-                                                    }
-                                                />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
-                                    </div>
-                                </ClickAwayListener>
-                            </>
-                        ) : (
-                            <>
-                                {user.birth == null || user.birth == "" ? (
-                                    <div>
-                                        <div
-                                            className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end"
-                                            onClick={handleOpenDatePicker}
-                                        >
-                                            <AddIcon fontSize="small" />
-                                            <span className="text-end m-auto">
-                                                Add a birthday
-                                            </span>
-                                        </div>
-                                    </div>
+                                                <LocalizationProvider
+                                                    dateAdapter={AdapterDayjs}
+                                                >
+                                                    <DemoContainer
+                                                        components={[
+                                                            "DatePicker",
+                                                        ]}
+                                                        sx={{
+                                                            "& > :not(style)": {
+                                                                width: "100%",
+                                                            },
+                                                        }}
+                                                    >
+                                                        <DatePicker
+                                                            className={clsx(
+                                                                classes?.datePicker
+                                                            )}
+                                                            onChange={(e) =>
+                                                                handleChangeBirth(
+                                                                    e
+                                                                )
+                                                            }
+                                                        />
+                                                    </DemoContainer>
+                                                </LocalizationProvider>
+                                            </div>
+                                        </ClickAwayListener>
+                                    </>
                                 ) : (
-                                    <span>{user.birth}</span>
+                                    <>
+                                        {userProfile.birth == null ||
+                                        userProfile.birth == "" ? (
+                                            <div>
+                                                <div
+                                                    className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end"
+                                                    onClick={
+                                                        handleOpenDatePicker
+                                                    }
+                                                >
+                                                    <AddIcon fontSize="small" />
+                                                    <span className="text-end m-auto">
+                                                        Add a birthday
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <span>{userProfile.birth}</span>
+                                        )}
+                                    </>
                                 )}
                             </>
+                        ) : (
+                            <span>{userProfile.birth}</span>
                         )}
                     </span>
                 </div>
@@ -147,7 +155,8 @@ export const Contact: React.FC<Props> = ({ classes, user }) => {
                     <span className="text-center flex mb-2 text-sm">
                         <AlternateEmailIcon fontSize="small" className="mr-2" />
 
-                        {user.email == null || user.email == "" ? (
+                        {userProfile.email == null ||
+                        userProfile.email == "" ? (
                             <div>
                                 <div className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end">
                                     <AddIcon fontSize="small" />
@@ -157,60 +166,65 @@ export const Contact: React.FC<Props> = ({ classes, user }) => {
                                 </div>
                             </div>
                         ) : (
-                            user.email
+                            userProfile.email
                         )}
                     </span>
                 </div>
                 <div className="h-7">
                     <span className="text-center flex mb-2 text-sm">
-                        {openPhone ? (
+                        {userProfile.id === user.id ? (
                             <>
-                                {/* <ClickAwayListener
-                                    onClickAway={handleOpenPhone}
-                                >
-                                    <input
-                                        title="text"
-                                        className="bg-gray-300 text-slate-700 rounded-md p-l-5 w-1/4"
-                                        maxLength={10}
-                                        onChange={(e) => checkPhone(e)}
-                                    />
-                                </ClickAwayListener> */}
-                                <ClickAwayListener onClickAway={updatePhone}>
-                                    <div>
-                                        <PhoneInput
-                                            className={clsx(
-                                                classes?.inputPhone,
-                                                "bg-primary text-slate-700 rounded-md h-6"
-                                            )}
-                                            placeholder="Enter phone number"
-                                            value={phone}
-                                            onChange={(e) =>
-                                                handleChangePhone(e)
-                                            }
-                                            defaultCountry="VN"
-                                            limitMaxLength={true}
+                                {openPhone ? (
+                                    <>
+                                        <ClickAwayListener
+                                            onClickAway={updatePhone}
+                                        >
+                                            <div>
+                                                <PhoneInput
+                                                    className={clsx(
+                                                        classes?.inputPhone,
+                                                        "bg-primary text-slate-700 rounded-md h-6"
+                                                    )}
+                                                    placeholder="Enter phone number"
+                                                    value={phone}
+                                                    onChange={(e) =>
+                                                        handleChangePhone(e)
+                                                    }
+                                                    defaultCountry="VN"
+                                                    limitMaxLength={true}
+                                                />
+                                            </div>
+                                        </ClickAwayListener>
+                                    </>
+                                ) : (
+                                    <>
+                                        <PhoneIcon
+                                            fontSize="small"
+                                            className="mr-2"
                                         />
-                                    </div>
-                                </ClickAwayListener>
+                                        {userProfile.phone == null ||
+                                        userProfile.phone == "" ? (
+                                            <div>
+                                                <div
+                                                    className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end"
+                                                    onClick={handleOpenPhone}
+                                                >
+                                                    <AddIcon fontSize="small" />
+                                                    <span className="text-end m-auto">
+                                                        Add phone
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            userProfile.phone
+                                        )}
+                                    </>
+                                )}
                             </>
                         ) : (
                             <>
                                 <PhoneIcon fontSize="small" className="mr-2" />
-                                {user.phone == null || user.phone == "" ? (
-                                    <div>
-                                        <div
-                                            className="text-xs flex align-bottom text-blue-500 cursor-pointer hover:text-blue-300 text-end"
-                                            onClick={handleOpenPhone}
-                                        >
-                                            <AddIcon fontSize="small" />
-                                            <span className="text-end m-auto">
-                                                Add phone
-                                            </span>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    user.phone
-                                )}
+                                <span>{userProfile.phone}</span>
                             </>
                         )}
                     </span>

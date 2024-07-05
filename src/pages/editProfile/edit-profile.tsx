@@ -26,18 +26,25 @@ export const EditProfile: React.FC<Props> = ({ classes }) => {
     const [name, setName] = useState<string>("");
 
     useEffect(() => {
-        axios
-            .get(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?id=` +
-                    id
-            )
-            .then((res) => {
-                setUser(res.data);
-                setName(res.data.name);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        const fetchUserData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (token) {
+                    const response = await axios.get(
+                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`
+                    );
+                    setUser(response.data);
+                    setName(response.data.name);
+                } else {
+                    // Handle the case where the userId is null
+                    console.log("User ID is not available in localStorage.");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchUserData();
     }, []);
     const navigate = useNavigate();
     const handleChangePhone = (e) => {
@@ -45,7 +52,10 @@ export const EditProfile: React.FC<Props> = ({ classes }) => {
         setUser(user);
     };
     const handleChangeBirth = (e) => {
-        if (e == null) return;
+        if (e == null) {
+            user.birth = "";
+            return;
+        }
         user.birth = e.format("YYYY-MM-DD");
         setUser(user);
     };
@@ -61,6 +71,12 @@ export const EditProfile: React.FC<Props> = ({ classes }) => {
     });
 
     const handeleSave = () => {
+        if (!user.phone) {
+            user.phone = "";
+        }
+        if (!user.birth) {
+            user.birth = "";
+        }
         console.log("name", name);
         console.log("birth", user.birth);
         console.log("phone", user.phone);
@@ -102,7 +118,7 @@ export const EditProfile: React.FC<Props> = ({ classes }) => {
                         <ThemeProvider theme={theme}>
                             <TextField
                                 focused
-                                value={user.name}
+                                value={name}
                                 id="outlined-required"
                                 label="Name"
                                 color="primary"
