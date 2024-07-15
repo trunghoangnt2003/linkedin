@@ -3,10 +3,9 @@ import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { User } from "../../../models/user";
 import AddIcon from "@mui/icons-material/Add";
-import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import React from "react";
 import { ClickAwayListener } from "@mui/base/ClickAwayListener";
-import { UpdateBirth, UpdatePhone } from "../../../service";
+import { UpdateUser } from "../../../service";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import clsx from "clsx";
@@ -40,7 +39,8 @@ export const Contact: React.FC<Props> = ({ classes, user, userProfile }) => {
         setOpenDatePicker(false);
         if (userProfile.birth === birth) return;
         if (birth == null || birth == "") return;
-        UpdateBirth(userProfile, birth);
+        userProfile.birth = birth;
+        UpdateUser(userProfile);
         userProfile.birth = birth;
     };
 
@@ -56,7 +56,8 @@ export const Contact: React.FC<Props> = ({ classes, user, userProfile }) => {
         setOpenPhone(false);
         if (userProfile.phone === phone) return;
         if (phone == null || phone == "") return;
-        UpdatePhone(userProfile, phone);
+        userProfile.phone = phone;
+        UpdateUser(userProfile);
         userProfile.phone = phone;
     };
 

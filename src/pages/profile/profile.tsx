@@ -16,7 +16,7 @@ export const Profile: React.FC<Props> = ({ classes }) => {
     const [user, setUser] = React.useState<User>({} as User);
 
     const userProfile = useGetUser(
-        encodeURIComponent("u#1817158c-23c0-48f3-a1d1-d49099262ca5")
+        encodeURIComponent("u#993e2ada-0e27-4d52-b75a-39bdea694e5e")
     );
 
     useEffect(() => {
@@ -25,7 +25,12 @@ export const Profile: React.FC<Props> = ({ classes }) => {
                 const token = localStorage.getItem("token");
                 if (token) {
                     const response = await axios.get(
-                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`
+                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
                     );
                     setUser(response.data);
                 } else {

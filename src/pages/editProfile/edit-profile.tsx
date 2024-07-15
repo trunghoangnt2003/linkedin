@@ -31,7 +31,12 @@ export const EditProfile: React.FC<Props> = ({ classes }) => {
                 const token = localStorage.getItem("token");
                 if (token) {
                     const response = await axios.get(
-                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`
+                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
                     );
                     setUser(response.data);
                     setName(response.data.name);
@@ -80,8 +85,8 @@ export const EditProfile: React.FC<Props> = ({ classes }) => {
         console.log("name", name);
         console.log("birth", user.birth);
         console.log("phone", user.phone);
-
-        UpdateUser(user, name, user.birth, user.phone);
+        user.name = name;
+        UpdateUser(user);
         navigate("/profile");
     };
 

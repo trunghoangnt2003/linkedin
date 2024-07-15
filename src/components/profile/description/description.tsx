@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Textarea from "@mui/joy/Textarea";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { UpdateUser } from "../../../service";
 
 type Props = {
     user: User;
@@ -14,25 +15,8 @@ type Props = {
 };
 
 const handlePost = async (user: User, description: string) => {
-    await axios
-        .patch(
-            "https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user",
-            {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                birth: user.birth,
-                phone: user.phone,
-                image: user.avatar,
-                description: description.trim(),
-            }
-        )
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    user.description = description.trim();
+    UpdateUser(user);
 };
 
 export const Description: React.FC<Props> = ({

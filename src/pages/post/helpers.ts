@@ -45,7 +45,6 @@ export const handlePost = async (options: {
                 }
             )
             .then(function (response) {
-                console.log(response);
                 console.log("Post content thành công");
                 handleUploadImages(idPost, images);
             })

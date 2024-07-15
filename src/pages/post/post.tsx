@@ -85,7 +85,10 @@ export const PostShare: React.FC<Props> = ({ classes }) => {
                 if (token) {
                     const response = await axios.get(
                         `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`
-                    );
+                    ,{headers: {
+                        'Authorization': `Bearer ${token}`,
+                      }});
+                      console.log("user post",response.data)
                     setUser(response.data);
                 } else {
                     // Handle the case where the userId is null

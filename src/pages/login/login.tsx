@@ -18,18 +18,15 @@ const checkUser = async (user) => {
                     user.email
             )
             .then(async (res) => {
-                console.log("login:", res.data);
-                console.log("Đăng nhập");
                 localStorage.setItem("token", res.data.token);
-                return true;
+                return;
             })
             .catch(async (err) => {
-                console.log("err checkUser", err);
+                await registerUser(user);
             });
     } catch (err) {
         console.log(err);
     }
-    return false;
 };
 const registerUser = async (user) => {
     try {
@@ -43,8 +40,7 @@ const registerUser = async (user) => {
                 }
             )
             .then((response) => {
-                console.log("response", response);
-                console.log("");
+                localStorage.setItem("token", response.data.body.token);
             })
             .catch(function (error) {
                 console.log(error);
@@ -71,17 +67,7 @@ export const Login: React.FC<Props> = ({ classes }) => {
                 //    const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
-                console.log("user", user);
-                const check = await checkUser(user);
-                if (check !== true) {
-                    await registerUser(user);
-                    const check2 = await checkUser(user);
-                    if (check2 === true) {
-                        navigate("/post");
-                    }
-                } else {
-                    navigate("/post");
-                }
+                await checkUser(user);
             })
             .catch((error) => {
                 console.log(error);
