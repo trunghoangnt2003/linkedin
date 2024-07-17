@@ -1,0 +1,14 @@
+.mainContent {
+    width: 414px;
+    height: 896px;
+    background-color: black;
+    /* Màu nên của phần giữa */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.vborder{
+    border-left: 1px solid #e8e8e9;
+    opacity: 0.5;
+    
+}

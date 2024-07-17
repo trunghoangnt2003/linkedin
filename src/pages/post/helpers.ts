@@ -2,7 +2,6 @@ import { User } from "../../models";
 import axios from "axios";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
-import { v4 as uuidv4 } from "uuid";
 
 const handleUploadImages = (idPost: string, images: File[]) => {
     if (images.length === 0) return;
