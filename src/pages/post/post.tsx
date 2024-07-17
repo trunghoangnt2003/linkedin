@@ -1,11 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import {
-    Avatar,
-    Button,
-    IconButton,
-    TextField,
-    Divider,
-} from "@mui/material";
+import { Avatar, Button, IconButton, TextField, Divider } from "@mui/material";
 import { CameraAlt, AlternateEmail, Tag, Close } from "@mui/icons-material";
 import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
 import clsx from "clsx";
@@ -21,7 +15,6 @@ type Props = {
 };
 
 export const PostShare: React.FC<Props> = ({ classes }) => {
-
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -66,12 +59,10 @@ export const PostShare: React.FC<Props> = ({ classes }) => {
     });
 
     const onPost = () => {
-        if (content !== "") {
-            handlePost({
-                content,
-                user,
-                images,
-            });
+        const token = localStorage.getItem("token");
+        console.log("post token", token);
+        if (content !== "" && token) {
+            handlePost(content, token, images);
         } else {
             alert("Vui lòng nhập nội dung để đăng bài");
         }
@@ -81,14 +72,16 @@ export const PostShare: React.FC<Props> = ({ classes }) => {
         const fetchUserData = async () => {
             try {
                 const token = localStorage.getItem("token");
-                console.log("token", token);
                 if (token) {
                     const response = await axios.get(
-                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`
-                    ,{headers: {
-                        'Authorization': `Bearer ${token}`,
-                      }});
-                      console.log("user post",response.data)
+                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+                    console.log("user post", response.data);
                     setUser(response.data);
                 } else {
                     // Handle the case where the userId is null
@@ -262,7 +255,6 @@ export const PostShare: React.FC<Props> = ({ classes }) => {
                                                 >
                                                     +{images.length - 3}
                                                 </div>
-                                                
                                             </div>
                                         )}
                                     </div>
@@ -272,9 +264,14 @@ export const PostShare: React.FC<Props> = ({ classes }) => {
                     </div>
                 </div>
             </div>
-            <ModalClosePost showModal={showModal} toggleModal ={toggleModal}/>
-            <ModalAllImages isModalOpen = {isModalOpen}  handleModalClose = {handleModalClose} images = {images} removeImage = {removeImage} classes = {classes} />
-            
+            <ModalClosePost showModal={showModal} toggleModal={toggleModal} />
+            <ModalAllImages
+                isModalOpen={isModalOpen}
+                handleModalClose={handleModalClose}
+                images={images}
+                removeImage={removeImage}
+                classes={classes}
+            />
         </>
     );
 };

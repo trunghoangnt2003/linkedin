@@ -1,10 +1,9 @@
-import { User } from "../../models";
 import axios from "axios";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 
-const handleUploadImages = (idPost: string, images: File[]) => {
+const handleUploadImages = (idPost: string, images: File[], token: string) => {
     if (images.length === 0) return;
     const handleUploadImage = async (image: File, index: number) => {
         try {
@@ -17,6 +16,11 @@ const handleUploadImages = (idPost: string, images: File[]) => {
                     id: idPost,
                     imageId: "i#" + index,
                     url: downloadURL,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
             console.log("Post Image thành công", index, response);
@@ -30,23 +34,32 @@ const handleUploadImages = (idPost: string, images: File[]) => {
     });
 };
 
-export const handlePost = async (options: {
-    content: string;
-    user: User;
-    images: File[];
-}) => {
+export const handlePost = async (
+    content: string,
+    token: string,
+    images: File[]
+) => {
     try {
-        const { content, images } = options;
         await axios
             .post(
                 `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/post`,
                 {
                     content: content,
+                    'Authorization': `Bearer ${token}`,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
                 }
             )
+
             .then(function (response) {
-                console.log("Post content thành công");
-                handleUploadImages(idPost, images);
+                const idPost = response.data.body.postId;
+                if (idPost != null) {
+                    handleUploadImages(idPost, images, token);
+                }
             })
             .catch(function (error) {
                 console.log(error);

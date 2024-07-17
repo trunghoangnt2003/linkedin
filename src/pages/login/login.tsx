@@ -21,7 +21,7 @@ const checkUser = async (user) => {
                     localStorage.setItem("token", res.data.token);
                     return;
             })
-            .catch(async(err) => {
+            .catch(async() => {
                 await registerUser(user);
             });
     } catch (err) {
@@ -68,7 +68,7 @@ export const Login: React.FC<Props> = ({ classes }) => {
                 // The signed-in user info.
                 const user = result.user;
                 await checkUser(user);
-                
+                navigate("/post");
 
             })
             .catch((error) => {
@@ -82,7 +82,7 @@ export const Login: React.FC<Props> = ({ classes }) => {
                 // const credential = GoogleAuthProvider.credentialFromError(error);
                 // ...
             });
-        navigate("/post");
+
     };
 
     return (

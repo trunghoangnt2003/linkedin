@@ -9,7 +9,7 @@ export function App() {
     <Router>
       <Routes>
         <Route path="/post" element={<PostShare/>}/>
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/" element={<Login/>}/>
         <Route path="/logout" element={<Logout/>}/>
         <Route path="/" element={<Logout/>}/>
       </Routes>
