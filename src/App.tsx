@@ -1,19 +1,22 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { PostShare } from "./pages";
-import { Login } from "./pages/login";
-import { Logout } from "./components";
+// src/App.tsx (or index.tsx)
+import React from "react";
+import PostDetail from "./pages/detailPost/mainContent/mainContent";
+import MyForm from "./utils/test";
 
-export function App() {
+const App: React.FC = () => {
+    return (
+        // <ThemeProvider>
+        //     <NotificationProvider>
+        //         <div className="App">
+        //             <NotificationList />
+        //             {/* Other components consuming notifications or theme */}
+        //         </div>
+        //     </NotificationProvider>
+        // </ThemeProvider>
+        <>
+            <MyForm />
+        </>
+    );
+};
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/post" element={<PostShare/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/logout" element={<Logout/>}/>
-        <Route path="/" element={<Logout/>}/>
-      </Routes>
-    </Router>
-
-  )
-}
+export default App;
