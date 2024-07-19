@@ -17,7 +17,6 @@ type Props = {
 
 export const Infomation: React.FC<Props> = ({ classes, user, userProfile }) => {
     const navigate = useNavigate();
-
     const navigateToEditProfile = () => {
         navigate("edit");
     };

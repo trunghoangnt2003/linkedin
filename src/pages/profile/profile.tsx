@@ -4,6 +4,7 @@ import { Infomation } from "../../components/profile/infomation/infomation";
 import { Contact, Description } from "../../components/profile";
 import axios from "axios";
 import { User } from "../../models/user";
+import { useLocation } from "react-router-dom";
 import { useGetUser } from "../../service";
 
 type Props = {
@@ -13,11 +14,14 @@ type Props = {
 };
 
 export const Profile: React.FC<Props> = ({ classes }) => {
+    const location = useLocation();
     const [user, setUser] = React.useState<User>({} as User);
 
-    const userProfile = useGetUser(
-        encodeURIComponent("u#993e2ada-0e27-4d52-b75a-39bdea694e5e")
-    );
+    // const userProfile = useGetUser(
+    //     encodeURIComponent("u#8f003132-75d8-4d89-941f-e31381bfcbc1")
+    // );
+
+    const userProfile = location.state.user || {};
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -25,7 +29,7 @@ export const Profile: React.FC<Props> = ({ classes }) => {
                 const token = localStorage.getItem("token");
                 if (token) {
                     const response = await axios.get(
-                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`,
+                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/LinkedIn/user?token=${token}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,
@@ -45,8 +49,8 @@ export const Profile: React.FC<Props> = ({ classes }) => {
         fetchUserData();
     }, []);
 
-    console.log(userProfile.id + " __" + user.id);
-    console.log(userProfile.id === user.id);
+    // console.log(userProfile.id + " __" + user.id);
+    // console.log(userProfile.id === user.id);
 
     const handleDescriptionChange = (newDescription: string) => {
         setUser((prevUser) => ({

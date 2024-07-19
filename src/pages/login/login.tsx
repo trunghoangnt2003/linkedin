@@ -14,7 +14,7 @@ const checkUser = async (user) => {
     try {
         await axios
             .get(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user/email?email=` +
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/LinkedIn/user/email?email=` +
                     user.email
             )
             .then(async (res) => {
@@ -32,7 +32,7 @@ const registerUser = async (user) => {
     try {
         await axios
             .post(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user`,
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/LinkedIn/user`,
                 {
                     name: user.displayName,
                     email: user.email,

@@ -31,7 +31,7 @@ export const EditProfile: React.FC<Props> = ({ classes }) => {
                 const token = localStorage.getItem("token");
                 if (token) {
                     const response = await axios.get(
-                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user?token=${token}`,
+                        `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/LinkedIn/user?token=${token}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,

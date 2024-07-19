@@ -11,7 +11,7 @@ const handleUploadImages = (idPost: string, images: File[]) => {
             const snapshot = await uploadBytes(storageRef, image);
             const downloadURL = await getDownloadURL(snapshot.ref);
             const response = await axios.post(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/insertImage`,
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/LinkedIn/insertImage`,
                 {
                     id: idPost,
                     imageId: "i#" + index,
@@ -38,7 +38,7 @@ export const handlePost = async (options: {
         const { content, images } = options;
         await axios
             .post(
-                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/post`,
+                `https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/LinkedIn/post`,
                 {
                     content: content,
                 }

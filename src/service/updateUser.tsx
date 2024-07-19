@@ -5,7 +5,7 @@ export const UpdateUser = (user: User) => {
     const token = localStorage.getItem("token");
     axios
         .patch(
-            "https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/Linkedin/user",
+            "https://sw382iocb5.execute-api.ap-southeast-1.amazonaws.com/LinkedIn/user",
             {
                 id: user.id,
                 name: user.name,
