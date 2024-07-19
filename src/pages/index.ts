@@ -1,3 +1,4 @@
 export * from "./homePage";
-export * from "./suggest-connected";
 export * from "./notifications";
+export * from "./login";
+export * from "./post";
