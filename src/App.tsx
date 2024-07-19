@@ -1,8 +1,19 @@
-//import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import { AuthDetails, SignIn, SignUp } from "./components";
+// src/App.tsx (or index.tsx)
+import React from "react";
+import { NotificationProvider, ThemeProvider } from "./contexts";
+import { NotificationList } from "./pages";
 
-import { Home } from "./pages";
+const App: React.FC = () => {
+    return (
+        <ThemeProvider>
+            <NotificationProvider>
+                <div className="App">
+                    <NotificationList />
+                    {/* Other components consuming notifications or theme */}
+                </div>
+            </NotificationProvider>
+        </ThemeProvider>
+    );
+};
 
-export function App() {
-    return <Home />;
-}
+export default App;

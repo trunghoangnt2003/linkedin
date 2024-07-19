@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Post } from "../../../pages";
+import { HeaderPost, Post } from "../../../pages";
 
 type Props = {
     classes?: {
@@ -9,9 +9,16 @@ type Props = {
 export const Home: React.FC<Props> = ({ classes }) => {
     return (
         <>
-            <div className="flex justify-center items-center ">
-                <div className="flex-1  h-full"></div>
-                <div className={clsx(classes?.mainContent, "")}>
+            <div className="flex justify-center items-center bg-gray-900">
+                <div className="flex-1  h-full bg-gray-900"></div>
+
+                <div
+                    className={clsx(
+                        classes?.mainContent,
+                        "bg-black text-white"
+                    )}
+                >
+                    <HeaderPost />
                     <Post />
                     <Post />
                     <Post />
@@ -21,7 +28,7 @@ export const Home: React.FC<Props> = ({ classes }) => {
                     <Post />
                     <Post />
                 </div>
-                <div className="flex-1  h-full"></div>
+                <div className="flex-1  h-full bg-gray-900"></div>
             </div>
         </>
     );
