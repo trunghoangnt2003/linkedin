@@ -30,7 +30,7 @@ export const MyNetworkTag: React.FC<Props> = ({ classes, user }) => {
                     >
                         {user.name}
                     </span>
-                    <p className="text-xs opacity-75">manager</p>
+                    <p className="text-xs opacity-75">{user.description}</p>
                 </div>
                 <Stack direction="row" spacing={1}>
                     <Button
