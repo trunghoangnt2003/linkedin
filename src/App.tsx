@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MyNetwork, PostShare, Profile, EditProfile } from "./pages";
 import { Login } from "./pages/login";
 import { Logout } from "./components";
+import MyForm from "./utils/test";
 
 export function App() {
     return (
@@ -14,6 +15,7 @@ export function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route path="/mynetwork" element={<MyNetwork />} />
+                <Route path="/test" element={<MyForm />} />
             </Routes>
         </Router>
     );
